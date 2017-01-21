@@ -1,5 +1,9 @@
+security:
+  basic.enabled: false
+
 spring:
   profiles.active: default
+
 ---
 spring:
   profiles: default
