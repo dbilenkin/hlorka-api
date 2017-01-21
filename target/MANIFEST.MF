@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: dbilenkin
+Implementation-Vendor-Id: com.github.britter
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8.0_40
+Main-Class: ${start-class}
+
