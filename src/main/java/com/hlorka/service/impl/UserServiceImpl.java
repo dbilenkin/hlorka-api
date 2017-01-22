@@ -16,15 +16,10 @@ public class UserServiceImpl implements UserService {
 
     private final IntSequence userIdSeq = new IntSequence();
 
-    private final Map<Integer, User> users = new HashMap<>();
+    private final Map<String, User> users = new HashMap<>();
 
     @Override
     public User getUser(String login) {
-        User user = users.get( login);
-        if (user == null) {
-            user = new User(userIdSeq.next(), login);
-        }
-
-        return user;
+        return users.computeIfAbsent(login, k -> new User(userIdSeq.next(), login));
     }
 }
