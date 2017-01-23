@@ -8,27 +8,45 @@ import java.util.Set;
  * Created by lbilenki on 1/23/2017.
  */
 public class Team extends ObjectWithId {
-    private final int maxPlayerCount;
-    private final Set<Player> players = new LinkedHashSet<>();
+    private final String name;
+    private final int teamSize;
+    private final Set<User> members = new LinkedHashSet<>();
 
-    public Team(int id, int maxPlayerCount) {
+    public Team(int id, String name, int teamSize) {
         super(id);
-        this.maxPlayerCount = maxPlayerCount;
+        this.name = name;
+        this.teamSize = teamSize;
     }
 
-    public int getMaxPlayerCount() {
-        return maxPlayerCount;
+    public String getName() {
+        return name;
     }
 
-    public Set<Player> getPlayers() {
-        return Collections.unmodifiableSet(players);
+    public int getTeamSize() {
+        return teamSize;
     }
 
-    public boolean teamIsFull() {
-        return players.size() == maxPlayerCount;
+    public Set<User> getMembers() {
+        return Collections.unmodifiableSet(members);
     }
 
-    public void addPlayer(Player player) {
+    public boolean isMember(User user) {
+        return members.contains(user);
+    }
 
+    public boolean isFull() {
+        return members.size() == teamSize;
+    }
+
+    public boolean addMember(User user) {
+        if (isFull()) {
+            throw new IllegalStateException(String.format("Team %s is full. teamSize=%d", name, members.size()));
+        }
+
+        return members.add(user);
+    }
+
+    public boolean removeMember(User user) {
+        return members.remove(user);
     }
 }

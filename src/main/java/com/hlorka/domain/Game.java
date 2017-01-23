@@ -1,5 +1,6 @@
 package com.hlorka.domain;
 
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -26,7 +27,7 @@ public class Game extends ObjectWithId {
     }
 
     public Set<Player> getPlayers() {
-        return players;
+        return Collections.unmodifiableSet(players);
     }
 
     public boolean addPlayer(User user) {
