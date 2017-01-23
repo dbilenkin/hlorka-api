@@ -3,6 +3,7 @@ package com.hlorka.service.impl;
 import com.hlorka.domain.User;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsSame.sameInstance;
 import static org.junit.Assert.assertThat;
@@ -23,6 +24,7 @@ public class UserServiceImplTest {
 
         User login2 = userService.getUser("login2");
         assertThat(login2.getLogin(), is("login2"));
+        assertThat(login2, is(not(sameInstance(login1))));
     }
 
 }

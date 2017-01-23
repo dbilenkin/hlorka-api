@@ -1,16 +1,15 @@
 package com.hlorka.domain;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
  * A Game.
  */
-public class Game extends com.hlorka.domain.ObjectWithId {
-
+public class Game extends ObjectWithId {
     private final User host;
-
-    private Set<User> players;
+    private final Set<Player> players;
 
     public Game(int id, User host) {
         super(id);
@@ -26,17 +25,21 @@ public class Game extends com.hlorka.domain.ObjectWithId {
         return host;
     }
 
-    public Set<User> getPlayers() {
+    public Set<Player> getPlayers() {
         return players;
     }
 
-    public void addPlayer(User player) {
-        this.players.add(player);
+    public void addPlayer(User user) {
+        this.players.add(new Player(user));
+    }
+
+    public Optional<Player> getPlayer(User user) {
+        return players.stream().filter(p -> p.getUser().equals(user)).findFirst();
     }
 
     @Override
     public String toString() {
-        return String.format("id=%d, host=%s}", getId(), host);
+        return String.format("id=%d, host=%s}", id, host);
     }
 
 }
