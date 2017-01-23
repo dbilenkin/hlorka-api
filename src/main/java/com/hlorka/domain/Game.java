@@ -1,6 +1,6 @@
 package com.hlorka.domain;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,7 +14,7 @@ public class Game extends ObjectWithId {
     public Game(int id, User host) {
         super(id);
         this.host = host;
-        this.players = new HashSet<>();
+        this.players = new LinkedHashSet<>();
     }
 
     public String getName() {
@@ -29,8 +29,8 @@ public class Game extends ObjectWithId {
         return players;
     }
 
-    public void addPlayer(User user) {
-        this.players.add(new Player(user));
+    public boolean addPlayer(User user) {
+        return this.players.add(new Player(user));
     }
 
     public Optional<Player> getPlayer(User user) {

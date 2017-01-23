@@ -19,8 +19,4 @@ public class User extends ObjectWithId {
     public String toString() {
         return String.format("id=%d, login='%s'", id, login);
     }
-
-
-
-
 }

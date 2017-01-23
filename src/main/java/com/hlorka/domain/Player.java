@@ -25,6 +25,21 @@ public class Player {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Player player = (Player) o;
+
+        return user != null ? user.equals(player.user) : player.user == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return user != null ? user.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return user.toString() +
                 ", readyToStart=" + readyToStart;
