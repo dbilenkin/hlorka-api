@@ -41,7 +41,9 @@ public class Player {
 
     @Override
     public String toString() {
-        return user.toString() +
-                ", readyToStart=" + readyToStart;
+        return "Player{" +
+                "user=" + user +
+                ", readyToStart=" + readyToStart +
+                '}';
     }
 }

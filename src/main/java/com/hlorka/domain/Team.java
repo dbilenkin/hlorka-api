@@ -49,4 +49,9 @@ public class Team extends ObjectWithId {
     public boolean removeMember(User user) {
         return members.remove(user);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Team{name='%s', teamSize=%d, members=%s}", name, teamSize, members);
+    }
 }

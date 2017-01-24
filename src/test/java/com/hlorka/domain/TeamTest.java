@@ -16,7 +16,6 @@ public class TeamTest {
     private User three;
     private Team team;
 
-
     @Before
     public void setUp() {
         one = new User(1, "one");

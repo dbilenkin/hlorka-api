@@ -17,6 +17,9 @@ public class User extends ObjectWithId {
 
     @Override
     public String toString() {
-        return String.format("id=%d, login='%s'", id, login);
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                '}';
     }
 }

@@ -16,7 +16,7 @@ public class UserTest {
 
     @Test
     public void testToString() throws Exception {
-        assertThat(new User(1, "one").toString(), is("id=1, login='one'"));
+        assertThat(new User(1, "one").toString(), is("User{id=1, login='one'}"));
     }
 
 }

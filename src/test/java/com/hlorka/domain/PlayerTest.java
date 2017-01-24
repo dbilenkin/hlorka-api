@@ -17,7 +17,7 @@ public class PlayerTest {
 
         assertThat(player.getUser(), sameInstance(user));
         assertThat(player.isReadyToStart(), is(false));
-        assertThat(player.toString(), is("id=1, login='one', readyToStart=false"));
+        assertThat(player.toString(), is("Player{user=User{id=1, login='one'}, readyToStart=false}"));
 
         player.setReadyToStart(true);
         assertThat(player.isReadyToStart(), is(true));
