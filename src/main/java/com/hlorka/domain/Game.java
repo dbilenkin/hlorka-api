@@ -10,13 +10,15 @@ import java.util.Set;
  */
 public class Game extends ObjectWithId {
     private final GameType gameType;
+    private final GameState gameState;
     private final String name;
     private final User host;
     private final Set<Player> players;
 
-    public Game(int id, GameType gameType, String name, User host) {
+    public Game(int id, GameType gameType, GameState gameState, String name, User host) {
         super(id);
         this.gameType = gameType;
+        this.gameState = gameState;
         this.name = name;
         this.host = host;
         this.players = new LinkedHashSet<>();
@@ -24,6 +26,10 @@ public class Game extends ObjectWithId {
 
     public GameType getGameType() {
         return gameType;
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     public String getName() {
@@ -40,6 +46,10 @@ public class Game extends ObjectWithId {
 
     public boolean addPlayer(User user) {
         return this.players.add(new Player(user));
+    }
+
+    public boolean removePlayer(User user) {
+        return this.players.remove(new Player(user));
     }
 
     public Optional<Player> getPlayer(User user) {

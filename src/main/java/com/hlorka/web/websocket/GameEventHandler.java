@@ -1,6 +1,7 @@
 package com.hlorka.web.websocket;
 
 import com.hlorka.domain.Game;
+import com.hlorka.domain.User;
 import com.hlorka.service.EventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +32,13 @@ public class GameEventHandler implements EventHandler, ApplicationListener<Sessi
     }
 
     @Override
-    public void onGameJoined(Game game) {
+    public void onGameJoined(Game game, User user) {
         messagingTemplate.convertAndSend("/topic/game", game);
+    }
+
+    @Override
+    public void onGameLeft(Game game, User user) {
+        // TODO
     }
 
     @Override

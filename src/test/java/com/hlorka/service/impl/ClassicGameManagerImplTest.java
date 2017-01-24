@@ -5,33 +5,39 @@ import com.hlorka.service.EventHandler;
 import com.hlorka.service.GameContext;
 import com.hlorka.service.GameManager;
 import com.hlorka.service.IntSequence;
+import com.hlorka.utils.CollectionUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by lbilenki on 1/24/2017.
  */
 public class ClassicGameManagerImplTest {
 
-    private TestEventHandler eventHandler;
     private IntSequence gameIdGenerator;
     private GameContext gameContext;
     private User one;
     private User two;
     private User three;
 
+    @Mock
+    private EventHandler eventHandler;
+
     @Before
     public void setUp() {
-        eventHandler = new TestEventHandler();
+        MockitoAnnotations.initMocks(this);
+
         gameIdGenerator = new IntSequence();
 
         gameContext = new GameContext() {
@@ -49,7 +55,6 @@ public class ClassicGameManagerImplTest {
         one = new User(1, "one");
         two = new User(2, "two");
         three = new User(3, "three");
-
     }
 
     @Test
@@ -58,19 +63,19 @@ public class ClassicGameManagerImplTest {
         GameManager gameManager = new ClassicGameManagerImpl(gameContext, one, new GameConfig(GameType.Classic));
         Game game = gameManager.getGame();
 
+        verify(eventHandler).onGameCreated(eq(game));
+        verify(eventHandler).onGameJoined(eq(game), eq(one));
+
         assertThat(game.getHost(), sameInstance(one));
+        assertThat(game.getName(), is("one's game"));
         assertThat(game.getGameType(), is(GameType.Classic));
         assertThat(game.getPlayers().size(), is(1));
         assertThat(game.getPlayers().iterator().next().getUser(), sameInstance(one));
 
         // two joins the game
         gameManager.joinGame(two);
-
-        Iterator<Player> iter = game.getPlayers().iterator();
-
-        assertThat(iter.next().getUser(), sameInstance(one));
-        assertThat(iter.next().getUser(), sameInstance(two));
-        assertThat(iter.hasNext(), is(false));
+        verify(eventHandler).onGameJoined(eq(game), eq(two));
+        assertPlayers(game, one, two);
 
         // two joins the game again
         try {
@@ -79,54 +84,21 @@ public class ClassicGameManagerImplTest {
         } catch (IllegalArgumentException success) {
             assertThat(success.getMessage(), is("two already joined one's game"));
         }
+
+        // two leaves the game
+        gameManager.leaveGame(two);
+        verify(eventHandler).onGameLeft(eq(game), eq(two));
+        assertPlayers(game, one);
+
+        // three joins the game
+        gameManager.joinGame(three);
+        verify(eventHandler).onGameJoined(eq(game), eq(three));
+        assertPlayers(game, one, three);
     }
 
-    @Test
-    public void testGetGame() throws Exception {
-
-    }
-
-    private static class TestEventHandler implements EventHandler {
-        private final List<Event> events = new ArrayList<>();
-
-        @Override
-        public void onGameCreated(Game game) {
-            events.add(new Event(EventType.Created, game));
-        }
-
-        @Override
-        public void onGameJoined(Game game) {
-            events.add(new Event(EventType.Joined, game));
-        }
-
-        @Override
-        public void onGameDeleted(Game game) {
-            events.add(new Event(EventType.Deleted, game));
-        }
-
-        public List<Event> getEvents() {
-            return events;
-        }
-
-        public enum EventType {Created, Joined, Deleted}
-
-        public static class Event {
-            private final EventType eventType;
-            private final Game game;
-
-            public Event(EventType eventType, Game game) {
-                this.eventType = eventType;
-                this.game = game;
-            }
-
-            public EventType getEventType() {
-                return eventType;
-            }
-
-            public Game getGame() {
-                return game;
-            }
-        }
+    private void assertPlayers(Game game, User ... expectedPlayers) {
+        assertThat(game.getPlayers().stream().map(Player::getUser).collect(Collectors.toSet()),
+                is(CollectionUtils.asSet(expectedPlayers)));
     }
 
 }

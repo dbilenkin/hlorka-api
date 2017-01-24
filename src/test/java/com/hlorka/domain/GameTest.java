@@ -29,7 +29,7 @@ public class GameTest {
         two = new User(2, "two");
         three = new User(3, "three");
 
-        game = new Game(1, GameType.Classic, "one's game", one);
+        game = new Game(1, GameType.Classic, GameState.Setup, "one's game", one);
         game.addPlayer(one);
         game.addPlayer(two);
         game.addPlayer(three);
@@ -39,6 +39,11 @@ public class GameTest {
     @Test
     public void testGetType() throws Exception {
         assertThat(game.getGameType(), is(GameType.Classic));
+    }
+
+    @Test
+    public void testGetState() throws Exception {
+        assertThat(game.getGameState(), is(GameState.Setup));
     }
 
     @Test
@@ -77,7 +82,7 @@ public class GameTest {
         User two = new User(2, "two");
         User three = new User(3, "three");
 
-        Game game = new Game(1, GameType.Classic, "one's game", one);
+        Game game = new Game(1, GameType.Classic, GameState.Setup, "one's game", one);
         game.addPlayer(one);
         game.addPlayer(two);
         game.addPlayer(three);

@@ -8,5 +8,7 @@ import com.hlorka.domain.User;
  */
 public interface GameManager {
     Game joinGame(User user);
+    Game leaveGame(User user);
+
     Game getGame();
 }
