@@ -1,7 +1,10 @@
 package com.hlorka.web.rest;
 
+import com.hlorka.domain.GameConfig;
+import com.hlorka.domain.GameType;
 import com.hlorka.domain.User;
 import com.hlorka.domain.Game;
+import com.hlorka.service.GameManager;
 import com.hlorka.service.UserService;
 import com.hlorka.service.GameService;
 import org.slf4j.Logger;
@@ -46,7 +49,8 @@ public class GameResource {
         log.debug("REST request to create Game.");
 
         User user = userService.getUser(login);
-        Game game = gameService.createGame(user);
+        GameManager gameManager = gameService.createGame(user, new GameConfig(GameType.Classic));
+        Game game = gameManager.getGame();
 
         return ResponseEntity.created(new URI("/api/games/" + game.getId()))
             .body(game);
@@ -66,7 +70,7 @@ public class GameResource {
     public ResponseEntity<Game> joinGame(@PathVariable int id, @RequestBody String login) throws URISyntaxException {
         log.debug("REST request to join Game : {}", id);
         User user = userService.getUser(login);
-        Game game = gameService.joinGame(id, user);
+        Game game = gameService.getGameManager(id).joinGame(user);
         return ResponseEntity.ok()
             .body(game);
     }
@@ -79,8 +83,7 @@ public class GameResource {
     @GetMapping("/games")
     public List<Game> getAllGames() {
         log.debug("REST request to get all Games");
-        List<Game> games = gameService.getGames();
-        return games;
+        return gameService.getGames();
     }
 
     /**
@@ -92,10 +95,10 @@ public class GameResource {
     @GetMapping("/games/{id}")
     public ResponseEntity<Game> getGame(@PathVariable int id) {
         log.debug("REST request to get Game : {}", id);
-        Game game = gameService.getGame(id);
-        return Optional.ofNullable(game)
+        GameManager gameManager = gameService.getGameManager(id);
+        return Optional.ofNullable(gameManager)
             .map(result -> new ResponseEntity<>(
-                result,
+                result.getGame(),
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

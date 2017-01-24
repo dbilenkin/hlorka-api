@@ -3,7 +3,6 @@ package com.hlorka.domain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hlorka.utils.CollectionUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.StringWriter;
@@ -30,11 +29,16 @@ public class GameTest {
         two = new User(2, "two");
         three = new User(3, "three");
 
-        game = new Game(1, one);
+        game = new Game(1, GameType.Classic, "one's game", one);
         game.addPlayer(one);
         game.addPlayer(two);
         game.addPlayer(three);
         four = new User(4, "four");
+    }
+
+    @Test
+    public void testGetType() throws Exception {
+        assertThat(game.getGameType(), is(GameType.Classic));
     }
 
     @Test
@@ -66,14 +70,14 @@ public class GameTest {
         assertThat(game.getPlayer(four).isPresent(), is(false));
     }
 
-    @Ignore
+//    @Ignore
     @Test
     public void testJSon() throws Exception {
         User one = new User(1, "one");
         User two = new User(2, "two");
         User three = new User(3, "three");
 
-        Game game = new Game(1, one);
+        Game game = new Game(1, GameType.Classic, "one's game", one);
         game.addPlayer(one);
         game.addPlayer(two);
         game.addPlayer(three);

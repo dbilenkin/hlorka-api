@@ -1,6 +1,7 @@
 package com.hlorka.service;
 
 
+import com.hlorka.domain.GameConfig;
 import com.hlorka.domain.User;
 import com.hlorka.domain.Game;
 
@@ -11,9 +12,9 @@ import java.util.List;
  */
 public interface GameService {
 
-    Game createGame(User user);
-    Game joinGame(int gameId, User user);
-    Game getGame(int gameId);
+    GameManager createGame(User user, GameConfig gameConfig);
+    GameManager getGameManager(int gameId);
+
     void deleteGame(int gameId);
 
     List<Game> getGames();

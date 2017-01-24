@@ -9,17 +9,25 @@ import java.util.Set;
  * A Game.
  */
 public class Game extends ObjectWithId {
+    private final GameType gameType;
+    private final String name;
     private final User host;
     private final Set<Player> players;
 
-    public Game(int id, User host) {
+    public Game(int id, GameType gameType, String name, User host) {
         super(id);
+        this.gameType = gameType;
+        this.name = name;
         this.host = host;
         this.players = new LinkedHashSet<>();
     }
 
+    public GameType getGameType() {
+        return gameType;
+    }
+
     public String getName() {
-        return String.format("%s's game", host.getLogin());
+        return name;
     }
 
     public User getHost() {
@@ -40,7 +48,10 @@ public class Game extends ObjectWithId {
 
     @Override
     public String toString() {
-        return String.format("id=%d, host=%s}", id, host);
+        return "Game{" +
+                "gameType=" + gameType +
+                ", name='" + name + '\'' +
+                ", host=" + host +
+                '}';
     }
-
 }
