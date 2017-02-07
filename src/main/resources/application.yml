@@ -4,6 +4,9 @@ security:
 spring:
   profiles.active: default
 
+server:
+  port: 8090
+
 ---
 spring:
   profiles: default

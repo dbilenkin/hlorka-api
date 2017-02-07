@@ -1,12 +1,12 @@
 package com.hlorka.web.rest;
 
+import com.hlorka.domain.Game;
 import com.hlorka.domain.GameConfig;
 import com.hlorka.domain.GameType;
 import com.hlorka.domain.User;
-import com.hlorka.domain.Game;
 import com.hlorka.service.GameManager;
-import com.hlorka.service.UserService;
 import com.hlorka.service.GameService;
+import com.hlorka.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,6 +23,7 @@ import java.util.Optional;
 /**
  * REST controller for managing Game.
  */
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class GameResource {

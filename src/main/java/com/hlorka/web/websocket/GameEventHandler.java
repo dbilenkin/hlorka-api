@@ -33,7 +33,7 @@ public class GameEventHandler implements EventHandler, ApplicationListener<Sessi
 
     @Override
     public void onGameJoined(Game game, User user) {
-        messagingTemplate.convertAndSend("/topic/game", game);
+        messagingTemplate.convertAndSend("/topic/addGame", game);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class GameEventHandler implements EventHandler, ApplicationListener<Sessi
 
     @Override
     public void onGameDeleted(Game game) {
-        messagingTemplate.convertAndSend("/topic/game", game);
+        messagingTemplate.convertAndSend("/topic/deleteGame", game);
     }
 
     @Override
